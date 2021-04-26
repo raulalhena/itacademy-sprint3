@@ -13,7 +13,7 @@ const listingDirectory = function(command){
             console.log(error)
             return;
         }
-        console.log(`Ejecutando -> ls: \n\n${stdout}`);
+        console.log(`Ejecutando -> ${command}: \n\n${stdout}`);
     });
 }
 
