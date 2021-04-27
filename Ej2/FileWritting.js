@@ -9,9 +9,10 @@ import readline from "readline";
 
 const file = "FunctionName.txt";
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+const fileMng = function(writeFile){
+  const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
   });
   
   if(fs.existsSync(file)){
@@ -22,13 +23,14 @@ const rl = readline.createInterface({
             return;
         }
         console.log("Perfecto! No se ha realizado ninguna acción.");
-        
+        rl.close(); 
     });
   }else{
         console.log("El archivo no existía, se va a crear.");
         writeFile();
         rl.close();
   }
+}
 
 function writeFile(){
     fs.writeFileSync(file, writeFile.name);
@@ -38,4 +40,4 @@ function writeFile(){
 }
 
 
-
+fileMng(writeFile);
