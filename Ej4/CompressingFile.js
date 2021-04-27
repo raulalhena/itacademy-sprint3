@@ -11,21 +11,22 @@ import { pipeline } from "stream";
 
 const zip = zlib.createGzip();
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const askFile = function(compressFile){
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-rl.question("¿Qué archivo quieres comprimir? \n", (answer) => {
-    if(fs.existsSync(answer)){
-        compressFile(answer);
-        rl.close();
-    }else{
-        console.log("El archivo no existe o no se puede leer.");
-        rl.close();
-    }
-})
-
+    rl.question("¿Qué archivo quieres comprimir? \n", (answer) => {
+        if(fs.existsSync(answer)){
+            compressFile(answer);
+            rl.close();
+        }else{
+            console.log("El archivo no existe o no se puede leer.");
+            rl.close();
+        }
+    });
+}
 
 function compressFile(file){
     let source = fs.createReadStream(file,"utf-8");
@@ -40,3 +41,5 @@ function compressFile(file){
     });
     return;
 }
+
+askFile(compressFile);
