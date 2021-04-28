@@ -1,0 +1,13 @@
+{
+  "name": "Ej6",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "callback_hell.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
