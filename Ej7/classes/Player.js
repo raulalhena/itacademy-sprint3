@@ -1,11 +1,11 @@
 class Player{
-    constructor(_name){
+    id;
+    name;
+
+    constructor(_id, _name){
+        this.id = _id;
         this.name = _name;
     }
-
-    respuesta;
-
-    
 }
 
 export default Player;

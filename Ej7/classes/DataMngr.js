@@ -10,13 +10,13 @@ class DataMngr{
     getPlayersFromUser(){
         let players = [];
         
-        const players1 = this.readline.question(this.colorMngr.bgYellow("Introduce el nombre de los jugadores separados por comas: \n")).split(",");
+        const players1 = this.readline.question(this.colorMngr.bgYellow("Separalos por comas: \n")).split(",");
         players = players1.map(str => str.trim());
         return players;
     }
 
     getPlayerResp(){
-        return this.readline.question(this.colorMngr.green("¿Par o impar? O.o\n"));
+        return this.readline.question("");
     }
 
     getPlayAgain(){

@@ -1,5 +1,5 @@
 class Scoreboard{
-    playersScore = new Map();
+    playersScore = [];
 
     constructor(){
         if(Scoreboard._instance){
@@ -8,12 +8,16 @@ class Scoreboard{
         Scoreboard._instance = this;
     }
 
-    setScore(_playerName, _score){
-        this.playersScore.set(_playerName, this.playersScore.get(_playerName) + _score);
+    setPlayer(_playerId, _score){
+        this.playersScore[_playerId] = _score;
     }
 
-    getPlayersScore(_playerName){
-        return this.playersScore;
+    setScore(_playerId, _score){
+        this.playersScore[_playerId] = Number.parseInt(this.playersScore[_playerId],10) + Number.parseInt(_score,10);
+    }
+
+    getPlayerScore(_playerId){
+        return this.playersScore[_playerId];
     }
 }
 

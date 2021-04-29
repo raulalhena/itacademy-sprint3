@@ -17,7 +17,7 @@ import UIGame from "./classes/UIGame.js";
 import readline from "readline-sync";
 import chalk from "chalk";
 
-
+// Exportación de las clases necesarias al módulo de control
 export default { 
     Game,
     Scoreboard,

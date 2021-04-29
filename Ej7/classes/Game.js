@@ -29,11 +29,6 @@ class Game{
         }else{
             return "impar";
         }
-        
-    }
-
-    getWinner(){
-        
     }
 }
 

@@ -5,10 +5,6 @@ class UIGame{
         this.colorMngr = _colorMngr;
     }
 
-    welcome(_name){
-        console.log(this.colorMngr.green(`Antes de empezar el juego: **=> ${this.colorMngr.red(_name)} <=**`));
-    }
-
     showGameName(_name){
         return this.name;
     }
@@ -26,29 +22,20 @@ class UIGame{
 
     showPlayersResponse(_playersResponse, _result){
         console.log(this.colorMngr.bgMagenta(`\n** =>> El resultado es: ${_result.toUpperCase()} <<= **\n`));
-
         for (let [player, resp] of _playersResponse.entries()) {
-            console.log("Respuesta de:", this.colorMngr.bgGreen(player), this.colorMngr.bgBlue(resp));
+            console.log("Respuesta de:", this.colorMngr.bgGreen(player.name), this.colorMngr.bgBlue(resp));
             if(resp === _result){
                 console.log(this.colorMngr.bgRed("Correcta!"));
             }
         }
     }
 
-    showPlayers(_players){
-        let i = 0
-        console.log(this.colorMngr.bgMagenta("=>> Jugadores inscritos <<="));
-        _players.forEach(player =>{
-            i++;
-            console.log(`Jugador${i}: ${this.colorMngr.bgGreen(player)}`);
-        });
-        console.log("\n");
+    showPlayer(_player){
+        console.log(this.colorMngr.bgGreen(_player.name));
     }
 
-    showScores(_playersScore){
-        for(let score of _playersScore.values()){
-            console.log("Puntuacion: ", score);
-        }
+    showScores(_playerName, _score){
+        console.log(`Puntuacion ${_playerName}: ${_score}`);
     }
 
     showThinking(){

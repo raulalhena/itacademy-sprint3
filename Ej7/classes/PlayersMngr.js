@@ -9,8 +9,8 @@ class PlayersMngr{
         this.name = _name;
     }
 
-    setNewPlayer(_playerName){
-        this.players.push(_playerName);
+    setNewPlayer(_player){
+        this.players.push({id: _player.id, name: _player.name});
     }
 
     getPlayers(){
