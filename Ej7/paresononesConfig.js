@@ -15,6 +15,7 @@ import UIGame from "./classes/UIGame.js";
 */
 
 import readline from "readline-sync";
+import chalk from "chalk";
 
 
 export default { 
@@ -25,5 +26,6 @@ export default {
     Com,
     DataMngr,
     UIGame,
-    readline
+    readline,
+    chalk
 };

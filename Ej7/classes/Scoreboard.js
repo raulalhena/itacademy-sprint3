@@ -8,8 +8,12 @@ class Scoreboard{
         Scoreboard._instance = this;
     }
 
-    setScore(playerName, score){
-        this.playersScore.set(playerName, score);
+    setScore(_playerName, _score){
+        this.playersScore.set(_playerName, this.playersScore.get(_playerName) + _score);
+    }
+
+    getPlayersScore(_playerName){
+        return this.playersScore;
     }
 }
 
