@@ -1,6 +1,7 @@
 class Game{
     playersResponse = new Map();
-    resp;
+    respType = new Map();
+    result;
 
     constructor(_name){
         if(Game._instance && this.name == _name){
@@ -8,27 +9,49 @@ class Game{
         }
         Game._instance = this;
         this.name = _name;
+        this.respType.set("Correcta", 2);
+        this.respType.set("Incorrecta", 0);
     }
 
     getGameName(){
         return this.name;
     }
 
-    setPlayerResponse(_player, _resp,){
-        this.playersResponse.set(_player, _resp);
+    setPlayerResponse(_playerName, _resp,){
+        this.playersResponse.set(_playerName, _resp);
     }
 
-    getPlayersResponse(){
+    getPlayerResponseText(){
         return this.playersResponse;
     }
 
-    getResult(){
-        this.resp = Math.floor(Math.random() * (100 - 1)) + 1;
-        if(this.resp % 2 == 0) {
-            return "par";
+    getPlayerResponseNumber(_playerName){
+        return this.checkPlayerResponse(this.playersResponse.get(_playerName));
+    }
+
+    setGameResult(_result){
+        if(_result % 2 == 0) {
+            this.result = "par";
         }else{
-            return "impar";
+            this.result = "impar";
         }
+    }
+
+    getResultText(){
+        return this.result;
+    }
+
+    getResultNumber(){
+        return this.respType.get(this.result);
+    }
+
+    checkPlayerResponse(_resp){
+        if(_resp == this.result){
+            return this.respType.get("Correcta");
+        }else{
+            return this.respType.get("Incorrecta");
+        }
+        
     }
 }
 

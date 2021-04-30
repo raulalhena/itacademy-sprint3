@@ -12,7 +12,7 @@ class Scoreboard{
         this.playersScore[_playerId] = _score;
     }
 
-    setScore(_playerId, _score){
+    setPlayerScore(_playerId, _score){
         this.playersScore[_playerId] = Number.parseInt(this.playersScore[_playerId],10) + Number.parseInt(_score,10);
     }
 

@@ -1,8 +1,13 @@
 class UIGame{
     colorMngr;
+    com;
+    respTypes = new Map();
 
-    constructor(_colorMngr){
+    constructor(_colorMngr, _com){
         this.colorMngr = _colorMngr;
+        this.com = _com;
+        this.respTypes.set(2, "Correcta");
+        this.respTypes.set(0, "Incorrecta");
     }
 
     showGameName(_name){
@@ -11,35 +16,53 @@ class UIGame{
 
     showHeader(_name){
         process.stdout.write("\u001b[2J\u001b[0;0H");
-        console.log(this.colorMngr.green("*********************"));
-        console.log(this.colorMngr.green("*", _name));
-        console.log(this.colorMngr.green("*********************"));
+        this.com.sendMsg(this.colorMngr.green("*********************"));
+        this.com.sendMsg(this.colorMngr.green("*", _name));
+        this.com.sendMsg(this.colorMngr.green("*********************"));
     }
 
     showTurn(_player){
-        console.log(this.colorMngr.bgMagenta(`***** => Turno de: ${this.colorMngr.bgMagenta(_player)}`));
+        this.com.sendMsg(this.colorMngr.bgMagenta(`***** => Turno de: ${this.colorMngr.bgMagenta(_player)}`));
     }
 
-    showPlayersResponse(_playersResponse, _result){
-        console.log(this.colorMngr.bgMagenta(`\n** =>> El resultado es: ${_result.toUpperCase()} <<= **\n`));
-        for (let [player, resp] of _playersResponse.entries()) {
-            console.log("Respuesta de:", this.colorMngr.bgGreen(player.name), this.colorMngr.bgBlue(resp));
-            if(resp === _result){
-                console.log(this.colorMngr.bgRed("Correcta!"));
-            }
-        }
+    showGameResult(_result){
+        this.com.sendMsg(this.colorMngr.bgMagenta(`\n** =>> EL RESULTADO ES: ${_result.toUpperCase()} <<= **\n`));
     }
 
     showPlayer(_player){
-        console.log(this.colorMngr.bgGreen(_player.name));
+        this.com.sendMsg(this.colorMngr.bgGreen(_player.name));
     }
 
     showScores(_playerName, _score){
-        console.log(`Puntuacion ${_playerName}: ${_score}`);
+        this.com.sendMsg(`Puntuacion ${_playerName}: ${_score}`);
+    }
+
+    showPlayersResume(){
+        this.com.sendMsg(this.colorMngr.bgMagenta("=>> JUGADORES INSCRITOS <<="));
+    }
+
+    showPlayerResponse(_playerName, _resp, _respType){
+        this.com.sendMsg(`Respuesta de: ${this.colorMngr.bgGreen(_playerName)} es ${this.colorMngr.bgBlue(_resp)}`);
+        this.com.sendMsg(this.colorMngr.bgYellow(this.respTypes.get(_respType)));
+    }
+    showScoreResume(){
+        this.com.sendMsg(this.colorMngr.bgMagenta('\n** ! RESUMEN DE PUNTUACION ! **'));
+    }
+    
+    showPlayerIndex(_index){
+        this.com.sendMsg(`Jugador${_index}:`);
     }
 
     showThinking(){
-        console.log(this.colorMngr.bgYellow("\nGenerando número aleatorio..."));
+        this.com.sendMsg(this.colorMngr.bgYellow("\nGenerando número aleatorio..."));
+    }
+
+    showAskQuestion(){
+        this.com.sendMsg(this.colorMngr.green("¿Par o impar?"));
+    }
+
+    setResponseTypes(_respType){
+        this.respTypes.set(_respType);
     }
 }
 

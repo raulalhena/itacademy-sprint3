@@ -9,6 +9,7 @@ import Player from "./classes/Player.js";
 import Com from "./classes/Com.js";
 import DataMngr from "./classes/DataMngr.js";
 import UIGame from "./classes/UIGame.js";
+import Utils from "./classes/Utils.js";
 
 /*
     Clases de utilidad
@@ -26,6 +27,7 @@ export default {
     Com,
     DataMngr,
     UIGame,
+    Utils,
     readline,
     chalk
 };

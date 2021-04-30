@@ -1,27 +1,31 @@
 class DataMngr{
     readline;
     colorMngr;
+    com;
 
-    constructor(_readline, _colorMngr){
+    constructor(_readline, _colorMngr, _com){
         this.readline = _readline;
-        this.colorMngr = _colorMngr
+        this.colorMngr = _colorMngr;
+        this.com = _com;
     }
     
-    getPlayersFromUser(){
+    askPlayersFromUser(){
         let players = [];
-        
-        const players1 = this.readline.question(this.colorMngr.bgYellow("Separalos por comas: \n")).split(",");
+        this.com.sendMsg(this.colorMngr.bgMagenta("=>> INTRODUCE LOS NOMBRES DE LOS JUGADORES <<="));
+        this.com.sendMsg(this.colorMngr.bgYellow("Separalos por comas:"));
+        const players1 = this.readline.question("").split(",");
         players = players1.map(str => str.trim());
         return players;
     }
 
-    getPlayerResp(){
+    askPlayerResp(){
         return this.readline.question("");
     }
 
-    getPlayAgain(){
+    askPlayAgain(){
         let again = true;
-        again = this.readline.question(this.colorMngr.bgMagenta("\n¿Otra partida? (n/Enter para salir):\n"));
+        this.com.sendMsg(this.colorMngr.bgMagenta("\n¿Otra partida? (n/Enter para salir):"));
+        again = this.readline.question("");
         if(again == "n") again = false;
         return again;
 
