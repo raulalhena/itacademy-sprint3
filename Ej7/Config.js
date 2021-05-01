@@ -1,5 +1,5 @@
 /*
-    Clases del juego
+    Archivo de configuración de las Clases del juego
 */
 
 import Game from "./classes/Game.js";
@@ -18,7 +18,7 @@ import Utils from "./classes/Utils.js";
 import readline from "readline-sync";
 import chalk from "chalk";
 
-// Exportación de las clases necesarias al módulo de control
+// Exportación de las clases necesarias al módulo de control paresonones.js
 export default { 
     Game,
     Scoreboard,

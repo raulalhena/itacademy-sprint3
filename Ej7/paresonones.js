@@ -31,6 +31,7 @@ function gameInit(){
     // y al tablero de puntuaciones
     
     let counter = 1;
+    uiGame.showPlayersNameQuestion()
     dataMngr.askPlayersFromUser().forEach(_player => {
         const player = new paresonones.Player(counter - 1, _player);
         playersMngr.setNewPlayer(player);
@@ -82,6 +83,7 @@ function gameInit(){
         
     
     // Menú para poder jugar de nuevo o salir del juego
+    uiGame.showPlayAgainQuestion();
     }while(dataMngr.askPlayAgain());
 }
 
