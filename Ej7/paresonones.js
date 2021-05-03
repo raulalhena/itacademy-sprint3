@@ -2,22 +2,22 @@
     Importación del módulo de configuración
 */
 
-import paresonones from "./Config.js";
+import "./Config.js";
 
 function gameInit(){
     /* 
         Declaración e instanciación de objetos
     */
 
-    const colorMngr = paresonones.chalk;
-    const readline = paresonones.readline;
-    const game = new paresonones.Game("Pares o Nones");
-    const playersMngr = new paresonones.PlayersMngr();
-    const scoreBoard = new paresonones.Scoreboard();
-    const com = new paresonones.Com();
-    const uiGame = new paresonones.UIGame(colorMngr, com);
-    const dataMngr = new paresonones.DataMngr(readline, colorMngr, com);
-    const Utils = new paresonones.Utils();
+    const colorMngr = chalk;
+    const readline = readline;
+    const game = new Game("Pares o Nones");
+    const playersMngr = new PlayersMngr();
+    const scoreBoard = new Scoreboard();
+    const com = new Com();
+    const uiGame = new UIGame(colorMngr, com);
+    const dataMngr = new DataMngr(readline, colorMngr, com);
+    const Utils = new Utils();
 
     /*
         *** Inicio de la lógica de Control ***
@@ -33,7 +33,7 @@ function gameInit(){
     let counter = 1;
     uiGame.showPlayersNameQuestion()
     dataMngr.askPlayersFromUser().forEach(_player => {
-        const player = new paresonones.Player(counter - 1, _player);
+        const player = new Player(counter - 1, _player);
         playersMngr.setNewPlayer(player);
         scoreBoard.setPlayer(player.id, 0);
         counter++;

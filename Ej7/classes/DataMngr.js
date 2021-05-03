@@ -10,7 +10,6 @@ class DataMngr{
     constructor(_readline, _colorMngr){
         this.readline = _readline;
         this.colorMngr = _colorMngr;
-        this.com = _com;
     }
     
     // Obtiene los nombres de los players separados por comas y los añade a un array
