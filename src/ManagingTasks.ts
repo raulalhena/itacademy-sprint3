@@ -1,6 +1,6 @@
 import TaskManager from "./TaskManager.js";
 
-export default class Context{
+export default class ManagingTasks{
     private taskManager: TaskManager;
 
     constructor(_taskManager: TaskManager){
@@ -11,7 +11,7 @@ export default class Context{
         this.taskManager = _taskManager;
     }
 
-    public manageTask(): any {
-        console.log(this.taskManager.manageTask());
+    public manageTask(_data: any | void): any | void{
+        console.log(this.taskManager.manageTask(_data));
     }
 }

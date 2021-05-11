@@ -1,3 +1,3 @@
 export default interface TaskManager{
-    manageTask():any;
+    manageTask(data: any | void):any | void;
 }
