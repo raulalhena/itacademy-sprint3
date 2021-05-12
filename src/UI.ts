@@ -1,4 +1,5 @@
 import inquirer, { Answers } from 'inquirer';
+import Task from "./models/Task.js";
 
 enum Commands{
     Add = "Añadir una nueva tarea",
@@ -14,8 +15,10 @@ export default class UI {
     userName = "Raul";
     commands = Commands;
    
-    async mainMenu(): Promise<any>{
-        //console.clear();
+    async mainMenu(_ownerName: string, _numberIncompleteTasks: number, _tasks: Array<Task>): Promise<any>{
+        console.clear();
+        this.showInitInfo(_ownerName, _numberIncompleteTasks);
+        this.showListTasks(_tasks);
         const answers = await inquirer.prompt({
             type: "list",
             name: "command",
@@ -29,9 +32,14 @@ export default class UI {
     }
 
     showInitInfo(_userName: string, _pendingTasks: number): void{
-        console.clear();
-        console.log(`Tareas del usuario ${_userName}.`);
-        console.log(`${_pendingTasks} tareas pendientes:`);
+        this.show(`Tareas del usuario ${_userName}.`);
+        this.show(`${_pendingTasks} tareas pendientes:`);
+    }
+
+    showListTasks(_tasks: Array<Task>): void{
+        _tasks.forEach(task => {
+            this.show(`${task.getName()}\t${task.isComplete()? '(Finalizada)' : ''}`);
+        });
     }
 
     async addPrompt(_promptType: string, _promptName: string,_promptMessage: string): Promise<any>{

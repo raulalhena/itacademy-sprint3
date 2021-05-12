@@ -2,14 +2,13 @@ import User from "./User.js";
 import Task from "./Task.js";
 
 export default class TaskCollection{
-    /*private ownerId: number;
-    private ownerName: string;
-    private id: number;*/
-    private tasks: any = [];
+    
+    private tasks: Array<Task> = [];
 
-    public constructor(_owner: User, _tasks: Array<any>) {
+    public constructor(_tasks: Array<Task>) {
         _tasks.forEach(task => {
-            this.tasks.push({id: task.getId(), ownerId: _owner.getId(), ownerName: _owner.getName(), name: task.getName(), complete: task.isComplete()});
+            this.tasks.push(task);
+            console.log(task);
         });
     }
 

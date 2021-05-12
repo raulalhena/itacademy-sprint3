@@ -1,19 +1,13 @@
 import UI from "./UI.js";
-import ManagingTasks from "./ManagingTasks.js";
-import AddTask from "./AddTask.js";
-import UpdateTask from "./UpdateTask.js";
-import CompleteTask from "./FinalizeTask.js";
-import GetTask from "./GetTask.js";
-import GetAllTasks from "./GetAllTasks.js";
-import RemoveTask from "./RemoveTask.js";
+import TaskManager from "./TaskManager.js";
+import Data from './data.js';
+import Task from './models/Task.js';
+import TaskCollection from './models/TaskCollection.js';
 
 export default {
-    ManagingTasks,
-    AddTask,
-    UpdateTask,
-    CompleteTask,
-    GetTask,
-    GetAllTasks,
-    RemoveTask,
+    Data,
+    Task,
+    TaskCollection,
+    TaskManager,
     UI
 }
