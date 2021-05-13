@@ -3,7 +3,7 @@
 export default class Task{
     private id: number;
     private name: string;
-    private complete: boolean;
+    private complete: boolean = false;
     private ownerId: number;
     private ownerName: string;
 
@@ -51,6 +51,8 @@ export default class Task{
         return this.complete;
     }
 
-    
+    setComplete(): void{
+        this.complete = !this.complete;
+    }
 
 }

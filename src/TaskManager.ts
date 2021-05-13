@@ -2,24 +2,30 @@ import Task from "./models/Task.js";
 
 
 export default class TaskManager{
-    addTask(_data: Array<Task>, _taskName: string, _ownerId: number, _ownerName: string): void {
+    
+    addTask(_taskCollection: Array<Task>, _taskName: string, _ownerId: number, _ownerName: string): void {
         const task = new Task(
-            _data.length,
+            _taskCollection.length + 1,
             _taskName,
             false,
             _ownerId,
             _ownerName
         );
-        console.log("Tarea en addtask: ", task);
-        _data.push(task);
+        _taskCollection.push(task);
+        console.log("Add: ",_taskCollection);
     }
 
-    updateTask(): void {
-
+    updateTask(_taskCollection: Array<Task>, _taskId: number, _newTaskName: string): void {
+        _taskCollection.forEach(task => {
+            if(task.getId() === _taskId){
+                task.setName(_newTaskName);
+            }
+        })
     }
 
-    deleteTask(): void {
-
+    deleteTask(_taskCollection: Array<Task>, _taskId: number): void {
+        const index = _taskCollection.map(task => task.getId()).indexOf(_taskId);
+        _taskCollection.slice(index);
     }
 
     getAllTasks(_taskCollection: Array<Task>): Array<Task> {        
@@ -37,4 +43,25 @@ export default class TaskManager{
         const c = _taskCollection.filter(task => task.isComplete() === false);
         return c.length;
     }
+
+    completeTask(_taskCollection: Array<Task>, _selectedTasksId: number[]): void {
+        _taskCollection.forEach(task => {
+            if((task.isComplete() && _selectedTasksId.find(selectedTask => task.getId() === selectedTask) === undefined) || 
+            (!task.isComplete() && _selectedTasksId.find(selectedTask => task.getId() === selectedTask) != undefined)){
+                task.setComplete();
+            }
+        });
+    } 
+   
+    getTaskDetail(_taskCollection: Array<Task>, _taskId: number): Task{
+        _taskCollection.forEach(task => {
+            if(task.getId() === _taskId) {
+                console.log("Detail: ",_taskCollection);
+                return task;
+            }
+                return task;
+        });
+        return _taskCollection[0];
+    }
+    
 }

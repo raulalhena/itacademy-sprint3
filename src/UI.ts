@@ -16,7 +16,7 @@ export default class UI {
     commands = Commands;
    
     async mainMenu(_ownerName: string, _numberIncompleteTasks: number, _tasks: Array<Task>): Promise<any>{
-        console.clear();
+        //console.clear();
         this.showInitInfo(_ownerName, _numberIncompleteTasks);
         this.showListTasks(_tasks);
         const answers = await inquirer.prompt({
@@ -42,15 +42,30 @@ export default class UI {
         });
     }
 
-    async addPrompt(_promptType: string, _promptName: string,_promptMessage: string): Promise<any>{
-        const answers = await inquirer.prompt({
+    async inputPrompt(_promptType: string, _promptName: string,_promptMessage: string): Promise<any>{
+        const answer = await inquirer.prompt({
             type: _promptType,
             name: _promptName,
             message: _promptMessage
         });
 
-        const answer = JSON.stringify(answers);
         return answer;       
+    }
+
+    async listPrompt(_promptType: string, _promptName: string,_promptMessage: string, _taskCollection: Array<Task>): Promise<any>{
+        
+        const answer = await inquirer.prompt({
+            type: _promptType,
+            name: _promptName,
+            message: _promptMessage,
+            choices: _taskCollection.map(task => ({
+                name: task.getName(),
+                value: task.getId(),
+                checked: task.isComplete()
+            }))
+        });
+
+        return answer;
     }
 
     show(_text: string): void{

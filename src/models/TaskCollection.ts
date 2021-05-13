@@ -8,7 +8,6 @@ export default class TaskCollection{
     public constructor(_tasks: Array<Task>) {
         _tasks.forEach(task => {
             this.tasks.push(task);
-            console.log(task);
         });
     }
 
@@ -20,6 +19,6 @@ export default class TaskCollection{
             }
         });
         return myTask;
-    } 
- 
+    }
+
 }
