@@ -23,9 +23,14 @@ export default class TaskManager{
         })
     }
 
-    deleteTask(_taskCollection: Array<Task>, _taskId: number): void {
-        const index = _taskCollection.map(task => task.getId()).indexOf(_taskId);
-        _taskCollection.slice(index);
+    deleteTask(_taskCollection: Array<Task>, _selectedTaskId: number[]): void {
+        _taskCollection.forEach(task => {
+            if(_selectedTaskId.find(selectedTask => task.getId() === selectedTask)){
+                const index = _taskCollection.map(task => task.getId()).indexOf(task.getId());
+                console.log("Indice a borrar: ", index);
+                _taskCollection.splice(index,1);
+            }
+        });
     }
 
     getAllTasks(_taskCollection: Array<Task>): Array<Task> {        
