@@ -19,8 +19,9 @@ async function main(){
                     taskManager.addTask(data, taskToAdd.add, data[data.length - 1].getOwnerId() + 1, 'Owner'+ data[data.length - 1].toString());
                     break;
                 case commands.Update:
-                    const taskToUpdate = await ui.listPrompt("list", "update", "Escoje la tarea a elminar: ", taskManager.getAllTasks(data));
-                    taskManager.updateTask(data, taskToUpdate.update, 'Updated task');
+                    const taskToUpdate = await ui.listPrompt("list", "update", "Escoje la tarea a actualizar: ", taskManager.getAllTasks(data));
+                    const newTaskTitle = await ui.inputPrompt("input", "updated", "Nuevo titulo: ");
+                    taskManager.updateTask(data, taskToUpdate.update, newTaskTitle.updated);
                     break;
                 case commands.Complete:
                     const taskToComplete = await ui.listPrompt("checkbox", "complete", "Marcar completada: ", taskManager.getAllTasks(data));
@@ -30,7 +31,7 @@ async function main(){
                     taskManager.getAllTasks(data);
                     break;
                 case commands.GetTask:
-                    const taskToDetail = await ui.listPrompt("checkbox", "detail", "Selecciona para ver detalles: ", taskManager.getAllTasks(data));
+                    const taskToDetail = await ui.listPrompt("list", "detail", "Selecciona para ver detalles: ", taskManager.getAllTasks(data));
                     taskManager.getTaskDetail(data,  taskToDetail.complete);
                     break;
                 case commands.Delete:
