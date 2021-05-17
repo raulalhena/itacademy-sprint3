@@ -1,4 +1,4 @@
-import Task from "./Task";
+/*import Task from "./Task";
 
 export default class User{
     private id: number;
@@ -16,4 +16,4 @@ export default class User{
     getName(): string {
         return this.name;
     }
-}
+}*/

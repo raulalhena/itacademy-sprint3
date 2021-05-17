@@ -1,13 +1,15 @@
+/*
+    Modulos propios de la app ToDo List
+*/
+
 import UI from "./UI.js";
 import TaskManager from "./TaskManager.js";
-import Data from './data.js';
+import DBManager from './repository/DBManager.js';
 import Task from './models/Task.js';
-import TaskCollection from './models/TaskCollection.js';
 
-export default {
-    Data,
+export default{
     Task,
-    TaskCollection,
     TaskManager,
-    UI
+    UI,
+    DBManager
 }

@@ -1,72 +1,73 @@
 import Task from "./models/Task.js";
 
-
 export default class TaskManager{
+
+    private taskCollection: Task[];
+    private db: any;
+
+    public constructor(_taskCollection: Array<Task>, _db: any ){
+        this.taskCollection = _taskCollection;
+        this.db = _db;
+    }
     
-    addTask(_taskCollection: Array<Task>, _taskName: string, _ownerId: number, _ownerName: string): void {
+    addTask(_taskName: string, _created_at: Date): void {
         const task = new Task(
-            _taskCollection.length + 1,
+            this.taskCollection.length + 1,
             _taskName,
             false,
-            _ownerId,
-            _ownerName
+            _created_at
         );
-        _taskCollection.push(task);
-        console.log("Add: ",_taskCollection);
+        this.taskCollection.push(task);
+        this.db.set('tasks', this.taskCollection).write();
     }
 
-    updateTask(_taskCollection: Array<Task>, _taskId: number, _newTaskName: string): void {
-        _taskCollection.forEach(task => {
+    updateTask(_taskId: number, _newTaskName: string): void {
+        this.taskCollection.forEach(task => {
             if(task.getId() === _taskId){
                 task.setName(_newTaskName);
+                this.db.set('tasks', this.taskCollection).write();
             }
         })
     }
 
-    deleteTask(_taskCollection: Array<Task>, _selectedTaskId: number[]): void {
-        _taskCollection.forEach(task => {
-            if(_selectedTaskId.find(selectedTask => task.getId() === selectedTask)){
-                const index = _taskCollection.map(task => task.getId()).indexOf(task.getId());
-                console.log("Indice a borrar: ", index);
-                _taskCollection.splice(index,1);
+    deleteTask(_selectedTaskId: number[]): void {
+        for(let i: number = this.taskCollection.length - 1; i >=0 ; i--){
+            if(_selectedTaskId.find(selectedTask => this.taskCollection[i].getId() === selectedTask)){
+                delete this.taskCollection[i];
+                this.taskCollection.filter(el => el);
+                this.db.set('tasks', this.taskCollection).write();
             }
-        });
+        }
     }
 
-    getAllTasks(_taskCollection: Array<Task>): Array<Task> {        
-            return _taskCollection;
+    getAllTasks(): Array<Task> {        
+            return this.taskCollection;
     }
 
-    getTask(_id: number, _taskCollection: Array<Task>): Task{
-        const oneTask = _taskCollection.find(task => {
-            task.getOwnerId() === _id;
-        });
-        return oneTask!;
-    }
-
-    getIncomplete(_taskCollection: Array<Task>): number {
-        const c = _taskCollection.filter(task => task.isComplete() === false);
+    getIncomplete(): number {
+        const c = this.taskCollection.filter(task => task.isComplete() === false);
         return c.length;
     }
 
-    completeTask(_taskCollection: Array<Task>, _selectedTasksId: number[]): void {
-        _taskCollection.forEach(task => {
+    completeTask(_selectedTasksId: number[]): void {
+        this.taskCollection.forEach(task => {
             if((task.isComplete() && _selectedTasksId.find(selectedTask => task.getId() === selectedTask) === undefined) || 
             (!task.isComplete() && _selectedTasksId.find(selectedTask => task.getId() === selectedTask) != undefined)){
-                task.setComplete();
+                task.markComplete();
+                this.db.set('tasks', this.taskCollection).write();
             }
         });
     } 
    
-    getTaskDetail(_taskCollection: Array<Task>, _taskId: number): Task{
-        _taskCollection.forEach(task => {
+    getTaskDetail(_taskId: number): Task{
+        this.taskCollection.forEach(task => {
             if(task.getId() === _taskId) {
-                console.log("Detail: ",_taskCollection);
+                console.log("Detail: ",this.taskCollection);
                 return task;
             }
                 return task;
         });
-        return _taskCollection[0];
+        return this.taskCollection[0];
     }
     
 }

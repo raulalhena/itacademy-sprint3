@@ -1,5 +1,4 @@
-import User from "./User.js";
-import Task from "./Task.js";
+/*import Task from "./Task.js";
 
 export default class TaskCollection{
     
@@ -9,16 +8,11 @@ export default class TaskCollection{
         _tasks.forEach(task => {
             this.tasks.push(task);
         });
+        return this;
     }
 
-    getTask(_ownerId: number): any{
-        let myTask;
-        this.tasks.find(task => {
-            if(task.getOwnerId() === _ownerId){
-                myTask = task
-            }
-        });
-        return myTask;
+    getTaskCollection(): Array<Task> {
+        return this.tasks;
     }
 
-}
+}*/

@@ -12,12 +12,11 @@ enum Commands{
 };
 
 export default class UI {
-    userName = "Raul";
     commands = Commands;
    
-    async mainMenu(_ownerName: string, _numberIncompleteTasks: number, _tasks: Array<Task>): Promise<any>{
+    async mainMenu(_numberIncompleteTasks: number, _tasks: Array<Task>): Promise<any>{
         //console.clear();
-        this.showInitInfo(_ownerName, _numberIncompleteTasks);
+        this.showInitInfo(_numberIncompleteTasks);
         this.showListTasks(_tasks);
         const answers = await inquirer.prompt({
             type: "list",
@@ -31,9 +30,8 @@ export default class UI {
         return {answer: answer, commands: this.commands};
     }
 
-    showInitInfo(_userName: string, _pendingTasks: number): void{
-        this.show(`Tareas del usuario ${_userName}.`);
-        this.show(`${_pendingTasks} tareas pendientes:`);
+    showInitInfo(_pendingTasks: number): void{
+        this.show(`>> ${_pendingTasks} tareas pendientes:`);
     }
 
     showListTasks(_tasks: Array<Task>): void{
