@@ -4,20 +4,29 @@ import Task from "./models/Task.js";
 enum Commands{
     Add = "Añadir una nueva tarea",
     Update = "Actualizar tarea",
-    Complete = "Finalizar tarea",
+    Status = "Cambiar estado",
     ShowAll = "Mostrar todas las tareas",
-    GetTask = "Mostrar una tarea",
+    GetTask = "Mostrar detalle de tarea",
     Delete = "Borrar tarea",
     Quit = "Salir"
 };
 
+enum Status {
+    pending = "Pendiente",
+    executing = "En ejecución",
+    finished = "Finalizada"
+}
+
 export default class UI {
-    commands = Commands;
+    private commands = Commands;
+    private status = Status;
+    private first: boolean = true;
    
-    async mainMenu(_numberIncompleteTasks: number, _tasks: Array<Task>): Promise<any>{
-        //console.clear();
-        this.showInitInfo(_numberIncompleteTasks);
-        this.showListTasks(_tasks);
+    async mainMenu(): Promise<any>{
+        if(this.first) {
+            this.clearScreen();
+            this.first = false;
+        }
         const answers = await inquirer.prompt({
             type: "list",
             name: "command",
@@ -27,16 +36,18 @@ export default class UI {
 
         const answer = JSON.stringify(answers);
 
-        return {answer: answer, commands: this.commands};
+        return {answer: answer};
     }
 
     showInitInfo(_pendingTasks: number): void{
-        this.show(`>> ${_pendingTasks} tareas pendientes:`);
+        this.show(`>> ${_pendingTasks} tareas:`);
     }
 
-    showListTasks(_tasks: Array<Task>): void{
-        _tasks.forEach(task => {
-            this.show(`${task.getName()}\t${task.isComplete()? '(Finalizada)' : ''}`);
+    showListTasks(_taskCollection: Array<Task>): void{
+        this.clearScreen();
+        this.show(`\n*Tarea`);
+        _taskCollection.forEach(task => {
+            this.show(`-${task.getName()} \t\t ${task.getStatus()}`);
         });
     }
 
@@ -50,7 +61,7 @@ export default class UI {
         return answer;       
     }
 
-    async listPrompt(_promptType: string, _promptName: string,_promptMessage: string, _taskCollection: Array<Task>): Promise<any>{
+    async listPrompt(_promptType: string, _promptName: string, _promptMessage: string, _taskCollection: Array<Task>): Promise<any>{
         
         const answer = await inquirer.prompt({
             type: _promptType,
@@ -58,15 +69,51 @@ export default class UI {
             message: _promptMessage,
             choices: _taskCollection.map(task => ({
                 name: task.getName(),
-                value: task.getId(),
-                checked: task.isComplete()
+                value: task.getId()
             }))
         });
 
         return answer;
     }
 
+    async statusListPrompt(_promptType: string, _promptName: string, _promptMessage: string, _selectedTaskId: number[], _taskCollection: Array<Task>): Promise<any> {
+        const answer = await inquirer.prompt({
+            type: _promptType,
+            name: _promptName,
+            message: _promptMessage,
+            choices: Object.values(this.status)
+        });
+
+        return answer;
+    }
+
+    async showTaskDetail(_task: Task): Promise<any>{
+        this.clearScreen();
+        this.show(`Detalle tarea ${_task.getName()}:`);
+        this.show(`Id: ${_task.getId()}`);
+        this.show(`Nombre: ${_task.getName()}`);
+        this.show(`Estado: ${_task.getStatus()}`);
+        this.show(`Fecha creación: ${_task.getCreatedDate()}`);
+        if(_task.getFinishedDate() != null){
+            this.show(`Fecha finalización: ${_task.getFinishedDate()}`);
+        }
+    }
+
+    async pressAnyKey(): Promise<any> {
+        const answer = await inquirer.prompt({
+            type: "confirm",
+            name: "continue",
+            message: "Pulsa una tecla para continuar..\n",
+            default: false
+        });
+    }
+
     show(_text: string): void{
         console.log(_text);
     }
+
+    clearScreen(): void {
+        console.clear();
+    }
+   
 }

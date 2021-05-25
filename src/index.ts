@@ -1,46 +1,53 @@
 import config from './ToDoConfig.js';
 
-
 async function main(){
     const ui = new config.UI();
-    const dbManager = new config.DBManager('TodoList');
-    const taskManager = new config.TaskManager(dbManager.getData(), dbManager.getConnection());
+    const jsonDAO = new config.JSONDAO('TodoList.json');
+    const taskManager = new config.TaskManager(jsonDAO.getData());
     
     let again: boolean = true;
     
     do{
         try{
-            const { answer, commands }  = await ui.mainMenu(taskManager.getIncomplete(), taskManager.getAllTasks());
-            
-            switch(answer.slice(12,answer.length - 2)){
-                case commands.Add:
+             
+            const selectedCommand: any = {
+                "Añadir una nueva tarea": async function(){
                     const taskToAdd  = await ui.inputPrompt("input","add", "Nombre de la tarea: ");
-                    taskManager.addTask(taskToAdd.add, new Date());
-                    break;
-                case commands.Update:
+                    jsonDAO.saveData(taskManager.addTask(taskToAdd.add, new Date(), null));
+                },
+                "Actualizar tarea": async function() {
                     const taskToUpdate = await ui.listPrompt("list", "update", "Escoje la tarea a actualizar: ", taskManager.getAllTasks());
                     const newTaskTitle = await ui.inputPrompt("input", "updated", "Nuevo titulo: ");
-                    taskManager.updateTask(taskToUpdate.update, newTaskTitle.updated);
-                    break;
-                case commands.Complete:
-                    const taskToComplete = await ui.listPrompt("checkbox", "complete", "Marcar completada: ", taskManager.getAllTasks());
-                    taskManager.completeTask(taskToComplete.complete);
-                    break;
-                case commands.ShowAll:
-                    taskManager.getAllTasks();
-                    break;
-                case commands.GetTask:
+                    jsonDAO.saveData(taskManager.updateTask(taskToUpdate.update, newTaskTitle.updated));
+                },
+                "Cambiar estado": async function() {
+                    const changeStatus = await ui.listPrompt("checkbox", "status", "Marcar completada: ", taskManager.getAllTasks());
+                    const newStatus = await ui.statusListPrompt("list", "new", "Nuevo estado: ", changeStatus.status, taskManager.getAllTasks());
+                    jsonDAO.saveData(taskManager.changeStatus(changeStatus.status, newStatus.new));
+                },
+                "Mostrar todas las tareas": function(){
+                    ui.showListTasks(taskManager.getAllTasks());
+                },
+                "Mostrar detalle de tarea": async function() {
                     const taskToDetail = await ui.listPrompt("list", "detail", "Selecciona para ver detalles: ", taskManager.getAllTasks());
-                    taskManager.getTaskDetail(taskToDetail.complete);
-                    break;
-                case commands.Delete:
+                    ui.showTaskDetail(taskManager.getTask(taskToDetail.detail));
+                },
+                "Borrar tarea": async function(){
                     const taskToDelete = await ui.listPrompt("checkbox", "delete", "Escoje la tarea a elminar: ", taskManager.getAllTasks());
-                    taskManager.deleteTask(taskToDelete.delete);
-                    break;
-                case commands.Quit:
-                    again = false;
-                    break;
+                    jsonDAO.saveData(taskManager.deleteTask(taskToDelete.delete));
+                },
+                "Salir": () => again = false
             }
+
+            if(taskManager.getAllTasks().length === 0){
+                ui.clearScreen();
+                ui.show("No hay ninguna tarea, añade una!");
+                await selectedCommand["Añadir una nueva tarea"]();
+            }
+        
+            const { answer }  = await ui.mainMenu();
+            await selectedCommand[answer.slice(12,answer.length - 2)]();
+
         }catch(e){
             ui.show(e);
         }

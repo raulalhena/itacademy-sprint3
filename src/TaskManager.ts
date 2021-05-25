@@ -2,72 +2,64 @@ import Task from "./models/Task.js";
 
 export default class TaskManager{
 
-    private taskCollection: Task[];
-    private db: any;
+    private taskCollection: Array<Task> = [];
 
-    public constructor(_taskCollection: Array<Task>, _db: any ){
+    public constructor(_taskCollection: Array<Task>){
         this.taskCollection = _taskCollection;
-        this.db = _db;
     }
     
-    addTask(_taskName: string, _created_at: Date): void {
+    addTask(_taskName: string, _created_at: Date, _finished_at: Date | null): Array<Task> {
+        let id: number = 0;
+        if(this.taskCollection.length != 0){     
+            id = this.taskCollection[this.taskCollection.length - 1].getId();
+        }
         const task = new Task(
-            this.taskCollection.length + 1,
+            id + 1,
             _taskName,
-            false,
-            _created_at
+            _created_at,
+            "Pendiente",
+            _finished_at
         );
         this.taskCollection.push(task);
-        this.db.set('tasks', this.taskCollection).write();
+        return this.taskCollection;
     }
 
-    updateTask(_taskId: number, _newTaskName: string): void {
+    updateTask(_taskId: number, _newTaskName: string): Array<Task> {
         this.taskCollection.forEach(task => {
             if(task.getId() === _taskId){
                 task.setName(_newTaskName);
-                this.db.set('tasks', this.taskCollection).write();
             }
         })
+        return this.taskCollection; 
     }
 
-    deleteTask(_selectedTaskId: number[]): void {
-        for(let i: number = this.taskCollection.length - 1; i >=0 ; i--){
+    deleteTask(_selectedTaskId: number[]): Array<Task>{
+        for(let i: number = this.taskCollection.length - 1; i >= 0 ; i--){
             if(_selectedTaskId.find(selectedTask => this.taskCollection[i].getId() === selectedTask)){
                 delete this.taskCollection[i];
                 this.taskCollection.filter(el => el);
-                this.db.set('tasks', this.taskCollection).write();
             }
         }
+        return this.taskCollection = this.taskCollection.filter(el => el != null);
     }
 
     getAllTasks(): Array<Task> {        
             return this.taskCollection;
     }
 
-    getIncomplete(): number {
-        const c = this.taskCollection.filter(task => task.isComplete() === false);
-        return c.length;
-    }
-
-    completeTask(_selectedTasksId: number[]): void {
-        this.taskCollection.forEach(task => {
-            if((task.isComplete() && _selectedTasksId.find(selectedTask => task.getId() === selectedTask) === undefined) || 
-            (!task.isComplete() && _selectedTasksId.find(selectedTask => task.getId() === selectedTask) != undefined)){
-                task.markComplete();
-                this.db.set('tasks', this.taskCollection).write();
-            }
+    changeStatus(_selectedTasksId: number[], _newStatus: string): Array<Task> {
+        _selectedTasksId.forEach(id => {
+            this.taskCollection.forEach(task => {
+                if(task.getId() === id){
+                    task.setStatus(_newStatus);
+                }
+            });
         });
+        return this.taskCollection;
     } 
    
-    getTaskDetail(_taskId: number): Task{
-        this.taskCollection.forEach(task => {
-            if(task.getId() === _taskId) {
-                console.log("Detail: ",this.taskCollection);
-                return task;
-            }
-                return task;
-        });
-        return this.taskCollection[0];
+    getTask(_taskId: number): Task{
+        return this.taskCollection.find(task => task.getId() == _taskId)!;
     }
     
 }

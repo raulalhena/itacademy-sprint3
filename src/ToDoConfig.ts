@@ -4,12 +4,12 @@
 
 import UI from "./UI.js";
 import TaskManager from "./TaskManager.js";
-import DBManager from './repository/DBManager.js';
+import JSONDAO from './repository/JSONDAO.js';
 import Task from './models/Task.js';
 
 export default{
     Task,
     TaskManager,
     UI,
-    DBManager
+    JSONDAO
 }

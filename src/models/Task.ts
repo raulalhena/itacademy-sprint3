@@ -1,16 +1,22 @@
-
+enum Status {
+    pending = "Pendiente",
+    executing = "En ejecución",
+    finished = "Finalizada"
+}
 
 export default class Task{
     private id: number;
     private name: string;
-    private complete: boolean = false;
     private created_at: Date;
+    private status: string;
+    private finished_at: Date | null = null;
 
-    constructor(_id: number, _name: string, _complete: boolean, _created_at: Date){
+    constructor(_id: number, _name: string, _created_at: Date, _status: string, _finished_at: Date | null){
         this.id = _id;
         this.name = _name;
-        this.complete = _complete;
         this.created_at = _created_at;
+        this.status = _status;
+        this.finished_at = _finished_at;
     }
 
     getId(): number {
@@ -29,24 +35,28 @@ export default class Task{
         return this.name;
     }
 
-    getCompleted(): boolean {
-        return this.complete;
-    }
-
-    isComplete(): boolean {
-        return this.complete;
-    }
-
-    setComplete(_complete: boolean): void{
-        this.complete = _complete;
-    }
-
-    markComplete(): void{
-        this.complete = !this.complete;
-    }
-
     getCreatedDate(): Date {
         return this.created_at;
     }
 
+    getFinishedDate(): Date | null{
+        return this.finished_at;
+    }
+
+    setFinishedDate(_date: Date | null): void {
+        this.finished_at = _date;
+    }
+
+    setStatus(_status: string): void {
+        this.status = _status;
+        if(_status == "Finalizada") {
+            this.setFinishedDate(new Date());
+        }else if(_status != "Finalizada" && this.finished_at != null){
+            this.setFinishedDate(null);
+        }
+    }
+
+    getStatus(): string {
+        return this.status;
+    }
 }
