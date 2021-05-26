@@ -1,9 +1,3 @@
-enum Status {
-    pending = "Pendiente",
-    executing = "En ejecución",
-    finished = "Finalizada"
-}
-
 export default class Task{
     private id: number;
     private name: string;
@@ -23,10 +17,6 @@ export default class Task{
 
     getId(): number {
         return this.id;
-    }
-
-    setId(_id: number): void {
-        this.id = _id;
     }
 
     setName(_name: string): void {

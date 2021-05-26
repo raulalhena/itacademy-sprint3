@@ -39,10 +39,6 @@ export default class UI {
         return {answer: answer};
     }
 
-    showInitInfo(_pendingTasks: number): void{
-        this.show(`>> ${_pendingTasks} tareas:`);
-    }
-
     showListTasks(_taskCollection: Array<Task>): void{
         this.clearScreen();
         this.show(`\n*Tarea`);
@@ -97,15 +93,6 @@ export default class UI {
         if(_task.getFinishedDate() != null){
             this.show(`Fecha finalización: ${_task.getFinishedDate()}`);
         }
-    }
-
-    async pressAnyKey(): Promise<any> {
-        const answer = await inquirer.prompt({
-            type: "confirm",
-            name: "continue",
-            message: "Pulsa una tecla para continuar..\n",
-            default: false
-        });
     }
 
     show(_text: string): void{
