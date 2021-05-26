@@ -10,10 +10,12 @@ export default class Task{
     private created_at: Date;
     private status: string;
     private finished_at: Date | null = null;
+    private userName: string;
 
-    constructor(_id: number, _name: string, _created_at: Date, _status: string, _finished_at: Date | null){
+    constructor(_id: number, _name: string, _userName: string, _created_at: Date, _status: string, _finished_at: Date | null){
         this.id = _id;
         this.name = _name;
+        this.userName = _userName;
         this.created_at = _created_at;
         this.status = _status;
         this.finished_at = _finished_at;
@@ -58,5 +60,9 @@ export default class Task{
 
     getStatus(): string {
         return this.status;
+    }
+
+    getUserName(): string {
+        return this.userName;
     }
 }

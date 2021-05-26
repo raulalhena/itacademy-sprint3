@@ -1,4 +1,4 @@
-import inquirer, { Answers } from 'inquirer';
+import inquirer from 'inquirer';
 import Task from "./models/Task.js";
 
 enum Commands{
@@ -22,7 +22,7 @@ export default class UI {
     private status = Status;
     private first: boolean = true;
    
-    async mainMenu(): Promise<any>{
+    async mainMenu(_userName: string): Promise<any>{
         if(this.first) {
             this.clearScreen();
             this.first = false;
@@ -30,7 +30,7 @@ export default class UI {
         const answers = await inquirer.prompt({
             type: "list",
             name: "command",
-            message: "¿Qué quieres hacer?",
+            message: `${_userName} Selecciona una opción: `,
             choices: Object.values(this.commands)
         });
 

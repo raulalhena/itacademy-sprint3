@@ -18,7 +18,8 @@ export default class JSONDAO{
             for(let task in objCollection){
                 const myTask = new Task(
                     objCollection[task].id, 
-                    objCollection[task].name, 
+                    objCollection[task].name,
+                    objCollection[task].userName,
                     objCollection[task].created_at, 
                     objCollection[task].status, 
                     objCollection[task].finished_at

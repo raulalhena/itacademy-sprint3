@@ -8,7 +8,7 @@ export default class TaskManager{
         this.taskCollection = _taskCollection;
     }
     
-    addTask(_taskName: string, _created_at: Date, _finished_at: Date | null): Array<Task> {
+    addTask(_taskName: string, _created_at: Date, _userName: string, _finished_at: Date | null): Array<Task> {
         let id: number = 0;
         if(this.taskCollection.length != 0){     
             id = this.taskCollection[this.taskCollection.length - 1].getId();
@@ -16,6 +16,7 @@ export default class TaskManager{
         const task = new Task(
             id + 1,
             _taskName,
+            _userName,
             _created_at,
             "Pendiente",
             _finished_at
@@ -43,8 +44,8 @@ export default class TaskManager{
         return this.taskCollection = this.taskCollection.filter(el => el != null);
     }
 
-    getAllTasks(): Array<Task> {        
-            return this.taskCollection;
+    getAllTasks(_userName: string): Array<Task> {        
+            return this.taskCollection.filter(task => task.getUserName() == _userName);
     }
 
     changeStatus(_selectedTasksId: number[], _newStatus: string): Array<Task> {
